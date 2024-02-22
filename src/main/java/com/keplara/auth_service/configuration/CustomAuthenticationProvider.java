@@ -1,14 +1,8 @@
 package com.keplara.auth_service.configuration;
 
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import com.keplara.auth_service.configuration.tokens.CustomAccessToken;
-import com.keplara.auth_service.model.mongo.User;
 import com.keplara.auth_service.service.AuthService;
 
 public class CustomAuthenticationProvider implements AuthenticationProvider {
