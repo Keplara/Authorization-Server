@@ -30,18 +30,14 @@ repositories {
 	mavenCentral()
 }
 
-def profiles = 'dev'
 
 bootRun {
-	args = ["--spring.profiles.active=" + profiles]
+	args = ["--spring.profiles.active=dev"]
+
 }
 
 bootTestRun {
-	args = ["--spring.profiles.active=" + profiles]
-	project.logger.quiet("Printing Environment Variables:")
-	def username = System.getenv('GOOGLE_APPLICATION_CREDENTIALS')
-	print username
-    
+	args = ["--spring.profiles.active=dev"]
 }
 
 dependencies {
@@ -50,7 +46,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.google.auth:google-auth-library-credentials:1.23.0'
 	implementation 'com.google.auth:google-auth-library-oauth2-http:1.23.0'
-	implementation 'com.google.apis:google-api-services-gmail:v1-rev20221219-2.0.0'
+	implementation 'com.google.apis:google-api-services-gmail:v1-rev20231218-2.0.0'
 	implementation 'com.google.api-client:google-api-client:2.3.0'
 	implementation 'com.sun.mail:javax.mail:1.6.0'
 	implementation 'javax.mail:javax.mail-api:1.6.2'

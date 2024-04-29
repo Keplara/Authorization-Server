@@ -1,10 +1,8 @@
 package com.keplara.auth_service.factory;
 
-import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Optional;
 
 import javax.crypto.SecretKey;
 
@@ -26,7 +24,6 @@ import io.jsonwebtoken.security.SignatureException;
 
 @Component
 public class TokenFactory {
-    // TODO these secrets will need to be moved out for production 
 
     @Value("${secretKey}")
     private String secretKey;
@@ -40,6 +37,7 @@ public class TokenFactory {
     KeyAlgorithm<Password, Password> alg = Jwts.KEY.PBES2_HS512_A256KW;
 
     private SecretKey getSigningKey() {
+        // Secret key cannot have hyphens
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
     }
 
@@ -54,7 +52,8 @@ public class TokenFactory {
 
     public Claims getClaims(String token) throws AuthApiException {
         payloadPassword = Keys.password(payloadKey.toCharArray());
-        // try catch parse signed then parse encrypted claims
+
+        // replace with if statement.
         try {
             return Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(token).getPayload();
         } catch (MalformedJwtException malformedJwtException) {
@@ -63,8 +62,12 @@ public class TokenFactory {
         catch (SignatureException signatureException) {
             throw new AuthApiException("The signature has been changed and is not valid.");
         }
-         catch (UnsupportedJwtException unsupportedJwtException) {
-            return Jwts.parser().decryptWith(payloadPassword).build().parseEncryptedClaims(token).getPayload();
+        catch (UnsupportedJwtException unsupportedJwtException) {
+            try {
+                return Jwts.parser().decryptWith(payloadPassword).build().parseEncryptedClaims(token).getPayload();
+            } catch (Exception exception){
+                throw new AuthApiException("Token not authorized.");
+            }
         }
     }
 }

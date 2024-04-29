@@ -7,32 +7,40 @@ import com.keplara.auth_service.model.mongo.User;
 import com.keplara.auth_service.repository.SessionRepository;
 import com.keplara.auth_service.repository.UserRepository;
 
+import java.util.List;
+import java.util.ArrayList;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 @Service
 public class AuthService {
 
-    // private final UserRepository userRepository;
   private final SessionRepository sessionRepository;
   private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
 
-  public AuthService(SessionRepository sessionRepository, UserRepository userRepository) {
-      // this.userRepository = userRepository;
+  public AuthService(SessionRepository sessionRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
       this.sessionRepository = sessionRepository;
       this.userRepository = userRepository;
+      this.passwordEncoder = passwordEncoder;
+  }
+
+  public Boolean CreateUser(String username, String emailAddress, String password) {
+    String hashedPassword = passwordEncoder.encode(password);
+    List<String> authorities = new ArrayList<>();
+
+    // Save the username, email address, and hashed password to the database
+    User user = new User(username, emailAddress, hashedPassword, authorities);
+    userRepository.save(user);
+    return true;
   }
 
   public Session authenticate(){
-    // if session exist and is not expired -5 minutes then send session back auth complete
-    // if session exist and session is not expired but password is supplied send session back auth complete
-    // if session does not exist or is expired and password is supplied then login check password match use bycrypt to check password in db
-    // if session does not exist and password is not supplied return 403
     return new Session();
   }
 
   public String findUserId(String userName, String email){
-      // if username match then return userId;
-      // if email match return userId;
-      // if none match return null;   
     return "";
   }
 
@@ -41,16 +49,17 @@ public class AuthService {
   }
 
   public void createSession(Session session){
-      // create session token and assign in
   }
 
-  // takes username or email
   public User getUser(String username){
     User foundUserByUsername = this.userRepository.findByUsername(username);
+    User foundUserByEmailAddress = this.userRepository.findByEmailAddress(username);
+
     if (foundUserByUsername != null){
       return foundUserByUsername;
     } else {
-      return this.userRepository.findByEmailAddress(username);
+      return foundUserByEmailAddress;
     }
   }
+
 }

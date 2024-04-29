@@ -1,6 +1,5 @@
 package com.keplara.auth_service.service;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.keplara.auth_service.configuration.exceptions.AuthApiException;
@@ -23,7 +22,6 @@ public class TokenService {
         .add("emailAddress", emailAddress)
         .add("password", password)
         .add("username", username).build();
-        // have a JWT class that takes claims and expiration time
         return tokenBuilder.createToken(30, claims, true);
     }
 

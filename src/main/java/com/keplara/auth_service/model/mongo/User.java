@@ -1,9 +1,9 @@
 package com.keplara.auth_service.model.mongo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
@@ -16,24 +16,26 @@ public class User {
 
   private String password;
 
-  private String email;
+  @Indexed(unique = true)
+  private String emailAddress;
 
-  private String userName;
+  @Indexed(unique = true)
+  private String username;
 
   // TODO
   private Boolean authenticatorEnabled;
 
-  // Twillo
+  // TODO With Twillo
   private Boolean twoFactorEnabled;
 
-  private List<String> authorities = new ArrayList<>();
+  private List<String> authorities;
 
   public User(){}
 
-  public User(String password, String email, String userName, List<String> roles){
+  public User(String username, String emailAddress, String password, List<String> authorities){
     this.password = password;
-    this.email = email;
-    this.userName = userName;
+    this.emailAddress = emailAddress;
+    this.username = username;
     this.authorities = authorities; 
   }
   
