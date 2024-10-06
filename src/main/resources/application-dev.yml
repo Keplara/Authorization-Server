@@ -1,0 +1,41 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/provider_service
+  security:
+    oauth2:
+      authorizationserver:
+        client:
+          oidc-client:
+            registration:
+              # generate client_id and secret in code not here but for now it is fine
+              client-id: "oidc-client"
+              client-secret: "{noop}secret"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+              redirect-uris:
+                - "http://127.0.0.1:8080/login/oauth2/code/oidc-client"
+              post-logout-redirect-uris:
+                - "http://127.0.0.1:8080/"
+              scopes:
+                - "openid"
+                - "profile"
+            require-authorization-consent: false
+
+
+keplara:
+  client_id: ijcwfsnijf389hs38hs9w38r
+  client_secret: fnao309fnwauifh3p9a8h4rksfh03nwfh309   
+secretKey: 0DdF4QygeOYsBTzjV2z1jxNz1FZVW3ajTpI1bTui5zY
+payloadKey: 0DdF4QygeOYsBTzjV2z1jxNz1FZVW3ajTpI1bTui5zY
+service_account_key_file: /key.json
+
+#Redis Config
+redis:
+  config:
+    hostname=127.0.0.1
+    port=6379
+    maxTotal=5
