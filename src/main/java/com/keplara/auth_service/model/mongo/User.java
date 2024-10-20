@@ -8,12 +8,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import lombok.Data;
+
 import java.util.List;
+import java.util.HashMap;
 
 @Document("user")
-@Data
 public class User implements UserDetails {
   @Id
   private String userId;
@@ -32,7 +33,7 @@ public class User implements UserDetails {
   // TODO With Twillo
   private Boolean twoFactorEnabled;
 
-  private Collection<? extends GrantedAuthority> grants;
+  private Collection<? extends GrantedAuthority> authorities;
 
   private Boolean expired;
   private Boolean accountLocked;
@@ -48,26 +49,42 @@ public class User implements UserDetails {
   private String local;
   private String phoneNumber;
   private String address;
-  private List<String> authorities;
-  public User(){}
 
-  public User(String username, String emailAddress, String password, Collection<? extends GrantedAuthority> grants, List<String> authorities){
+  public User() {
+  }
+
+  public User(String username, String emailAddress, String password, Collection<? extends GrantedAuthority> authorities) {
     this.password = password;
     this.emailAddress = emailAddress;
     this.username = username;
-    this.authorities = authorities; 
-    this.grants = grants;
+    this.authorities = authorities;
+    this.authorities = authorities;
     this.expired = false;
     this.accountLocked = false;
     this.credentialsExpired = false;
     this.enabled = true;
   }
 
-  public Map<String, Object> getClaims(){
-    return null;
+  public Map<String, Object> getClaims() {
+    Map<String, Object> claims = new HashMap<>();
+    claims.put("userId", this.userId);
+    claims.put("username", this.username);
+    claims.put("email", this.emailAddress);
+    claims.put("authorities", this.authorities);
+    claims.put("enabled", this.enabled);
+    claims.put("authenticatorEnabled", this.authenticatorEnabled);
+    return claims;
   }
-  
-  public String getUsernameOrEmailAddress(){
+
+  public String getUserId() {
+    return this.userId;
+  }
+
+  public String getEmailAddress() {
+    return this.emailAddress;
+  }
+
+  public String getUsernameOrEmailAddress() {
     return emailAddress != null ? emailAddress : username;
   }
 
@@ -88,7 +105,22 @@ public class User implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-   return this.enabled;
+    return this.enabled;
   }
-  
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return authorities;
+  }
+
+  @Override
+  public String getPassword() {
+    return this.password;
+  }
+
+  @Override
+  public String getUsername() {
+    return this.username;
+  }
+
 }

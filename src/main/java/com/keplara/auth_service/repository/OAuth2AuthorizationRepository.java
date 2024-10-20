@@ -1,14 +1,14 @@
-package com.keplara.auth_service.repository;
+// package com.keplara.auth_service.repository;
 
-import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
-import org.springframework.data.mongodb.repository.MongoRepository;
+// import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
+// import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.keplara.auth_service.model.OAuth2Authorization;
-import java.util.List;
+// import com.keplara.auth_service.model.OAuth2Authorization;
+// import java.util.List;
 
-public interface OAuth2AuthorizationRepository extends MongoRepository<OAuth2Authorization, String> {
+// public interface OAuth2AuthorizationRepository extends MongoRepository<OAuth2Authorization, String> {
 
-    OAuth2Authorization findByTokenAndTokenType(String token, OAuth2TokenType tokenType);
+//     OAuth2Authorization findByTokenAndTokenType(String token, OAuth2TokenType tokenType);
 
-    List<OAuth2Authorization> findByToken(String token);
-}
+//     List<OAuth2Authorization> findByToken(String token);
+// }

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.jsonwebtoken.Claims;
 import lombok.Data;
 
 @Data

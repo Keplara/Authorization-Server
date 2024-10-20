@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import com.keplara.auth_service.repository.SessionRepository;
 import com.keplara.auth_service.repository.UserRepository;
 
 // remove auto configuration to have more security. We can look into it later.
@@ -14,9 +13,6 @@ import com.keplara.auth_service.repository.UserRepository;
 @EnableMongoRepositories
 public class AuthApplication {
 
-	@Autowired
-  	SessionRepository sessionRepository;
-	
 	@Autowired
   	UserRepository userRepository;
 

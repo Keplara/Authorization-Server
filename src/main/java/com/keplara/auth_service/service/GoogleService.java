@@ -28,6 +28,8 @@ import com.google.api.services.gmail.model.Message;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 
+// Use SES Email Service later.
+
 @Service
 public class GoogleService {
 
