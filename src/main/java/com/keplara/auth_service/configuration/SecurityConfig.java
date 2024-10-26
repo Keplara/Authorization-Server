@@ -63,10 +63,6 @@ import java.security.KeyPairGenerator;
 @EnableWebSecurity
 public class SecurityConfig {
 
-	// main app port 4200
-	// auth client port 8082
-	// auth server port 8080
-
 	@Autowired
 	private final OAuth2AuthorizationService oauth2AuthorizationService;
 
